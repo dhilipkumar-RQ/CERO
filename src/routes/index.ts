@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import authRoutes from '../routes/auth/auth.routes';
+import authRoutes from './auth.routes';
 import companyRoutes from '../routes/company.routes';
 
 const routes = (app: Application) => {

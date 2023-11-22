@@ -1,6 +1,5 @@
-
 const checkIsDev = () => {
   const env = process.env.NODE_ENV;
-  return env === "development";
+  return env === 'development';
 };
-export = checkIsDev
+export = checkIsDev;
