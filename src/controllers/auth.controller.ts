@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
-import { CompanyUserModel } from '../../models/company/CompanyUser.model';
-import generateToken from '../../utils/generateToken';
-import CompanyModel from '../../models/company/Company.model';
+import { CompanyUserModel } from '../models/company/CompanyUser.model';
+import generateToken from '../utils/generateToken';
+import CompanyModel from '../models/company/Company.model';
 
 const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
