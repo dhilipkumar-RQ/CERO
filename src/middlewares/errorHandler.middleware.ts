@@ -4,7 +4,7 @@ export default (err: Error, req: Request, res: Response, next: NextFunction) => 
   const isDev = checkIsDev();
 
   let errorMessage = err.message
-  console.log("Error is ", err)
+  console.log("Error is ", err.message)
 
   res.status(500).json({
     status: "error",

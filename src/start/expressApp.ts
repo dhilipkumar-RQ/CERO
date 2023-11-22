@@ -1,12 +1,16 @@
 import express, { Application } from 'express';
 import connectDB from '../database/connectdb';
-import authRoutes from '../routes/auth/auth.routes';
 import routes from '../routes';
+import errorHandler from '../middlewares/errorHandler.middleware'
+import morgan from 'morgan'
+import checkIsDev from '../utils/checkIsDev'
 
 export default async (app: Application) : Promise<void> => {
 
     await connectDB();
-  
+    if(checkIsDev()) {
+      app.use(morgan('dev'))
+    }
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     
@@ -16,5 +20,6 @@ export default async (app: Application) : Promise<void> => {
       });
     });
     routes(app);
+    app.use(errorHandler)
   }
   

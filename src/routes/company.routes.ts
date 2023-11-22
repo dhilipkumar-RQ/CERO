@@ -1,8 +1,12 @@
 import express, { Router } from 'express';
 import {companyController} from '../controllers'
 
-const companyRoutes: Router = express.Router();
+import Validate from '../middlewares/requestValidator.middleware'
+import {companyRouteValidator} from '../validators'
 
-companyRoutes.put('/:id/terms-and-condition', companyController.acceptTermsAndCondition)
+
+
+const companyRoutes: Router = express.Router();
+companyRoutes.put('/:id/terms-and-condition',Validate(companyRouteValidator.PUT_ID_ACCEPT_TERMS_AND_CONDITION_SCHEMA), companyController.acceptTermsAndCondition)
 
 export default companyRoutes;
