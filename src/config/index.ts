@@ -6,5 +6,6 @@ dotenv.config({
 
 const PORT  = Number(process.env.PORT)
 const DATABASE_URL = process.env.DATABASE_URL
+const ENVIRONMENT = process.env.ENVIRONMENT
 
-export {PORT, DATABASE_URL}
+export {PORT, DATABASE_URL, ENVIRONMENT}
