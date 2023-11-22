@@ -14,40 +14,40 @@ interface Address extends Document {
 
 const addressSchema = new Schema<Address>({
   address_line: {
-     type: String 
+    type: String,
   },
-  city: { 
-		type: Schema.Types.ObjectId,
-		ref: 'City' 
-	},
-  province: { 
-		type: Schema.Types.ObjectId, 
-		ref: 'Province' 
-	},
-  country: { 
-		type: Schema.Types.ObjectId, 
-		ref: 'Country' 
-	},
-  postal_code: { 
-		type: Number 
-	},
-  latitude: { 
-		type: Number, 
-		unique: true 
-	},
-  longitude: { 
-		type: Number, 
-		unique: true 
-	},
-  addressable_id: { 
-		type: String 
-	},
-  addressable_type: { 
-		type: String 
-	},
+  city: {
+    type: Schema.Types.ObjectId,
+    ref: 'City',
+  },
+  province: {
+    type: Schema.Types.ObjectId,
+    ref: 'Province',
+  },
+  country: {
+    type: Schema.Types.ObjectId,
+    ref: 'Country',
+  },
+  postal_code: {
+    type: Number,
+  },
+  latitude: {
+    type: Number,
+    unique: true,
+  },
+  longitude: {
+    type: Number,
+    unique: true,
+  },
+  addressable_id: {
+    type: String,
+  },
+  addressable_type: {
+    type: String,
+  },
 });
 
 // Address Model
 const Address = mongoose.model<Address>('address', addressSchema);
 
-export default Address
+export default Address;
