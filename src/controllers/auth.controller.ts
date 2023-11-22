@@ -13,6 +13,11 @@ const loginUser = asyncHandler(
 
       if (companyUser && (await companyUser.isPasswordMatched(password))) {
         const company = await CompanyModel.findOne(companyUser?.company_id);
+        const payload = {
+          user_id: companyUser?._id,
+          company_id: company?.id,
+          role: "user" // user or admin
+        }
         res.json({
           user: {
             user_id: companyUser?._id,
@@ -23,7 +28,7 @@ const loginUser = asyncHandler(
             terms_and_condition: company?.is_tc_agreed,
           },
           token: {
-            token: generateToken(companyUser?._id),
+            token: generateToken(payload),
           },
         });
       } else {
