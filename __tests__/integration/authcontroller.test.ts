@@ -130,6 +130,48 @@ describe('auth contoller test suite - set new password', () => {
         });
         expect(response.statusCode).toBe(401);
     });
+
+    it('set password - invalid password', async () => {
+        const company = {
+            name: faker.internet.displayName(),
+            website: 'cero.example.com',
+            status: 'pending',
+            is_tc_agreed: false,
+        }
+        const newCompany = await CompanyModel.create(company);
+        const fakeName = faker.internet.userName();
+        const fakeEmail = faker.internet.email();
+        const companyUser = {
+            first_name: fakeName,
+            last_name: fakeName,
+            email: fakeEmail,
+            company_id: newCompany._id,
+            password: 'Password@123',
+        };
+        const newCompanyUser = await CompanyUserModel.create(companyUser);
+        const token_payload = {
+            user_email: newCompanyUser.email,
+            user_id: newCompanyUser?._id,
+            company_id: newCompany?.id,
+            role: 'user',
+        };
+        const token = generateToken(token_payload);
+        const payload = {
+          user: {
+              new_password: 'Password',
+          },
+        };
+        const response = await supertest(server)
+        .put('/api/v1/auth/set-password')
+        .set('Authorization', token)
+        .set('Content-Type', 'application/json')
+        .send(payload);
+
+        expect(response.body).toMatchObject({
+            message: "Password must be a combination of minimum 8 characters, including 1 special character and 1 uppercase letter.",
+        });
+        expect(response.statusCode).toBe(422);
+    });
 });
 
 describe('auth contoller test suite - Login User', () => {

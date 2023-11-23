@@ -54,7 +54,7 @@ const setPassword = asyncHandler(
 
     const validationResult = passwordSchema.validate(new_password);
     if(validationResult.error) {
-      res.send({ message: 'Password must be a combination of minimum 8 characters, including 1 special character and 1 uppercase letter.' });
+      res.status(422).send({ message: 'Password must be a combination of minimum 8 characters, including 1 special character and 1 uppercase letter.' });
       return
     } 
     const { user_id } = req.user;
