@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-import {connectDB} from '../database/connectdb';
+import { connectDB } from '../database/connectdb';
 import routes from '../routes';
 import errorHandler from '../middlewares/errorHandler.middleware';
 import morgan from 'morgan';
@@ -32,5 +32,5 @@ export default async () => {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
-  return server
+  return server;
 };

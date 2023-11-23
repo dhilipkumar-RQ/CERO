@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { DATABASE_URL, NODE_ENV} from '../config/index';
+import { DATABASE_URL, NODE_ENV } from '../config/index';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
 let client: mongoose.Mongoose;
@@ -39,4 +39,4 @@ const disconnectDB = async () => {
   }
 };
 
-export {connectDB,disconnectDB}
+export { connectDB, disconnectDB };
