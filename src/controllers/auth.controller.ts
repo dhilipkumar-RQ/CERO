@@ -10,39 +10,35 @@ import { DEFAULT_COMPANY_USER_PASSWORD } from '../config';
 
 const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { email, password } = req.body.login;
+    const { email, password } = req.body.login;
 
-      const companyUser = await CompanyUserModel.findOne({ email });
+    const companyUser = await CompanyUserModel.findOne({ email });
 
-      if (companyUser && (await companyUser.isPasswordMatched(password))) {
-        const company = await CompanyModel.findOne(companyUser?.company_id);
+    if (companyUser && (await companyUser.isPasswordMatched(password))) {
+      const company = await CompanyModel.findOne(companyUser?.company_id);
 
-        const payload = {
-          user_email: companyUser.email,
+      const payload = {
+        user_email: companyUser.email,
+        user_id: companyUser?._id,
+        company_id: company?.id,
+        role: 'user', // user or admin
+      };
+
+      res.json({
+        user: {
           user_id: companyUser?._id,
-          company_id: company?.id,
-          role: 'user', // user or admin
-        };
-
-        res.json({
-          user: {
-            user_id: companyUser?._id,
-            first_name: companyUser?.first_name,
-            last_name: companyUser?.last_name,
-            email: companyUser?.email,
-            company_id: companyUser?.company_id,
-            terms_and_condition: company?.is_tc_agreed,
-          },
-          token: {
-            token: generateToken(payload),
-          },
-        });
-      } else {
-        throw new APIErrorResponse.UnauthenticatedError('Invalid Credentials');
-      }
-    } catch (error) {
-      next();
+          first_name: companyUser?.first_name,
+          last_name: companyUser?.last_name,
+          email: companyUser?.email,
+          company_id: companyUser?.company_id,
+          terms_and_condition: company?.is_tc_agreed,
+        },
+        token: {
+          token: generateToken(payload),
+        },
+      });
+    } else {
+      throw new APIErrorResponse.UnauthenticatedError('Invalid Credentials');
     }
   },
 );
