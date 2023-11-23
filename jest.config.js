@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   testEnvironment: 'node',
   preset: 'ts-jest/presets/default-esm',
   transform: {
@@ -9,10 +9,4 @@ export default {
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(m)?ts$',
   coverageDirectory: 'coverage',
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    'src/**/*.mts',
-    '!src/**/*.d.ts',
-    '!src/**/*.d.mts',
-  ],
 };

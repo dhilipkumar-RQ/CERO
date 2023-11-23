@@ -1,13 +1,22 @@
-import Joi from 'joi'
+import Joi, { ObjectSchema } from 'joi';
 
-const PUT_ID_ACCEPT_TERMS_AND_CONDITION_SCHEMA = Joi.object({
+interface CompanyTCUpdateRequest {
+  body: {
+    data: {
+      status: boolean;
+    };
+  };
+}
+
+const UPDATE_TERMS_AND_CONDITION_REQUEST_SCHEMA: ObjectSchema<CompanyTCUpdateRequest> =
+  Joi.object({
     body: Joi.object({
-        data: Joi.object({
-            status: Joi.boolean().required(),
-        }).required(),
+      data: Joi.object({
+        status: Joi.boolean().required(),
+      }).required(),
     }),
     params: Joi.object({}),
     query: Joi.object({}),
-});
+  });
 
-export default {PUT_ID_ACCEPT_TERMS_AND_CONDITION_SCHEMA}
+export default { UPDATE_TERMS_AND_CONDITION_REQUEST_SCHEMA };

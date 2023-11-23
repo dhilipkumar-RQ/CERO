@@ -5,8 +5,22 @@ dotenv.config({
 });
 
 const PORT = Number(process.env.PORT);
-const DATABASE_URL = process.env.DATABASE_URL;
-const ENVIRONMENT = process.env.ENVIRONMENT;
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
 
-export { PORT, DATABASE_URL, ENVIRONMENT,JWT_SECRET_KEY };
+const dbConfig = {
+  development: {
+    dbUrl: 'mongodb://localhost:27017/cero-dev',
+  },
+  staging: {
+    dbUrl: process.env.DATABASE_URL,
+  },
+  production: {
+    dbUrl: process.env.DATABASE_URL,
+  },
+};
+
+const DATABASE_URL = dbConfig[process.env.NODE_ENV].dbUrl;
+
+const ENVIRONMENT = process.env.ENVIRONMENT;
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+
+export { PORT, DATABASE_URL, ENVIRONMENT, JWT_SECRET_KEY };

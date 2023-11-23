@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 import { CompanyUserModel } from '../models/company/CompanyUser.model';
 import generateToken from '../utils/generateToken';
 import CompanyModel from '../models/company/Company.model';
+import APIErrorResponse from '../errors';
 
 const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -13,11 +15,13 @@ const loginUser = asyncHandler(
 
       if (companyUser && (await companyUser.isPasswordMatched(password))) {
         const company = await CompanyModel.findOne(companyUser?.company_id);
+
         const payload = {
           user_id: companyUser?._id,
           company_id: company?.id,
-          role: "user" // user or admin
-        }
+          role: 'user', // user or admin
+        };
+
         res.json({
           user: {
             user_id: companyUser?._id,
@@ -32,11 +36,12 @@ const loginUser = asyncHandler(
           },
         });
       } else {
-        res.status(401);
-        throw new Error('Invalid Login Credentials');
+        throw new APIErrorResponse.UnauthenticatedError('Invalid Credentials');
       }
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
     }
   },
 );
