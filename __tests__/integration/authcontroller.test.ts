@@ -38,7 +38,7 @@ describe('auth contoller test suite - set new password', () => {
     
         const payload = {
           user: {
-            new_password: '12345',
+            new_password: 'Password@12345',
           },
         };
         const response = await supertest(server)
@@ -64,13 +64,12 @@ describe('auth contoller test suite - set new password', () => {
         const newCompany = await CompanyModel.create(company);
         const fakeName = faker.internet.userName();
         const fakeEmail = faker.internet.email();
-        const fakePassword = faker.internet.password();
         const companyUser = {
             first_name: fakeName,
             last_name: fakeName,
             email: fakeEmail,
             company_id: newCompany._id,
-            password: fakePassword,
+            password: 'Password@123temp',
         };
         const newCompanyUser = await CompanyUserModel.create(companyUser);
         const token_payload = {
@@ -83,7 +82,7 @@ describe('auth contoller test suite - set new password', () => {
 
         const payload = {
         user: {
-            new_password: '12345',
+            new_password: 'Password@123New',
         },
         };
         const response = await supertest(server)
@@ -108,18 +107,17 @@ describe('auth contoller test suite - set new password', () => {
         const newCompany = await CompanyModel.create(company);
         const fakeName = faker.internet.userName();
         const fakeEmail = faker.internet.email();
-        const fakePassword = faker.internet.password();
         const companyUser = {
             first_name: fakeName,
             last_name: fakeName,
             email: fakeEmail,
             company_id: newCompany._id,
-            password: fakePassword,
+            password: 'Password@123',
         };
         const newCompanyUser = await CompanyUserModel.create(companyUser);
         const payload = {
         user: {
-            new_password: '12345',
+            new_password: 'Password@123',
         },
         };
         const response = await supertest(server)

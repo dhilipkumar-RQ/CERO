@@ -7,6 +7,7 @@ import CompanyModel from '../models/company/Company.model';
 import APIErrorResponse from '../errors';
 import mongoose from 'mongoose';
 import { DEFAULT_COMPANY_USER_PASSWORD } from '../config';
+import Joi from 'joi';
 
 const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -46,6 +47,16 @@ const loginUser = asyncHandler(
 const setPassword = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { new_password } = req.body.user;
+
+    const passwordSchema = Joi.string()
+      .regex(/^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:<>?~-]).{8,}$/)
+      .required();
+
+    const validationResult = passwordSchema.validate(new_password);
+    if(validationResult.error) {
+      res.send({ message: 'Password must be a combination of minimum 8 characters, including 1 special character and 1 uppercase letter.' });
+      return
+    } 
     const { user_id } = req.user;
     const companyUser = await CompanyUserModel.findOne({
       _id: new mongoose.Types.ObjectId(user_id),
