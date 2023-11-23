@@ -11,12 +11,12 @@ export const authMiddleware = async (
   try {
     const token = req.headers['authorization'];
     if (!token) {
-      throw new APIErrorResponse.UnauthenticatedError('UnAuthroized user');
+      throw new APIErrorResponse.UnauthenticatedError("UnAuthorized user");
     }
     const decoded: any = jwt.verify(token, JWT_SECRET_KEY as string);
 
     if (!decoded) {
-      throw new APIErrorResponse.UnauthenticatedError('UnAuthroized user');
+      throw new APIErrorResponse.UnauthenticatedError("UnAuthorized user");
     }
 
     req.user = decoded;
