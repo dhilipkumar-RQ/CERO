@@ -1,0 +1,4 @@
+- Start the dev server -> npm run start:dev (npx nodemon)
+- Create build -> npm run build (tsc -p tsconfig.json)
+- Start the production -> npm run start (npm run build && node build/src/main.js)
+- To run tests -> npm test (NODE_ENV=test jest --coverage)

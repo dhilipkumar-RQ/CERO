@@ -1,13 +1,15 @@
-import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET_KEY } from "../config";
+import { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET_KEY } from '../config';
 import APIErrorResponse from '../errors';
 
-
-export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-
+export const authMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const token = req.headers["authorization"];
+    const token = req.headers['authorization'];
     if (!token) {
       throw new APIErrorResponse.UnauthenticatedError("UnAuthorized user");
     }
@@ -19,7 +21,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
     req.user = decoded;
   } catch (err) {
-    next(err)
+    next(err);
   }
   return next();
 };
