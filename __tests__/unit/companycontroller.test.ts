@@ -1,21 +1,11 @@
 import 'jest';
 import supertest from "supertest"
-import {connectDB,disconnectDB} from '../../src/database/connectdb';
-import expressApp from '../../src/start/expressApp';
 import CompanyModel from '../../src/models/company/Company.model';
 import {CompanyUserModel}  from '../../src/models/company/CompanyUser.model';
 import generateToken from '../../src/utils/generateToken';
+import {app} from '../../src/utils/setupTestEnvironment' 
 
 describe("company contoller test suite", () => {
-  let app;
-  let db;
-  beforeAll(async () => {
-    app = await expressApp()
-    db = await connectDB()
-  })
-  afterAll(async () => {
-    await disconnectDB()
-  })
 
   it("terms and condition update success", async () => {
         
