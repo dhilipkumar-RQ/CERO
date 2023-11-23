@@ -5,10 +5,10 @@ interface Company extends Document {
   website: string;
   status: 'pending' | 'active' | 'inactive' | 'approved' | 'rejected';
   action_at: Date;
-  action_by_id: mongoose.Schema.Types.ObjectId;
+  action_by_id: mongoose.Types.ObjectId;
   is_tc_agreed: boolean;
   tc_agreed_on: Date;
-  tc_agreed_by_id: mongoose.Schema.Types.ObjectId;
+  tc_agreed_by_id: mongoose.Types.ObjectId;
 }
 
 const companySchema: Schema<Company> = new mongoose.Schema(
@@ -30,7 +30,7 @@ const companySchema: Schema<Company> = new mongoose.Schema(
       type: Date,
     },
     action_by_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'admin',
     },
     is_tc_agreed: Boolean,
@@ -38,7 +38,7 @@ const companySchema: Schema<Company> = new mongoose.Schema(
       type: Date,
     },
     tc_agreed_by_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'company_user',
     },
   },

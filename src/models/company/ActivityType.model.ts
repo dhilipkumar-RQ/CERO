@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 interface CompanyActivityType extends Document {
   activity_type_id: number;
-  company_id: mongoose.Schema.Types.ObjectId;
+  company_id: mongoose.Types.ObjectId;
 }
 
 const companyActivityTypeSchema: Schema<CompanyActivityType> =

@@ -5,6 +5,7 @@ import { CompanyUserModel } from '../models/company/CompanyUser.model';
 import generateToken from '../utils/generateToken';
 import CompanyModel from '../models/company/Company.model';
 import APIErrorResponse from '../errors';
+import mongoose from 'mongoose';
 
 const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -17,6 +18,7 @@ const loginUser = asyncHandler(
         const company = await CompanyModel.findOne(companyUser?.company_id);
 
         const payload = {
+          user_email: companyUser.email,
           user_id: companyUser?._id,
           company_id: company?.id,
           role: 'user', // user or admin
@@ -45,5 +47,20 @@ const loginUser = asyncHandler(
     }
   },
 );
+
+
+const setPassword= asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { new_password } = req.body.user;
+      const { user_id } = req.user
+      const companyUser = await CompanyUserModel.findOne({ _id: new mongoose.Types.ObjectId(user_id) });
+      companyUser.password = new_password
+      await companyUser.save()
+    } catch (error) {
+      next(error)
+    }
+  }
+)
 
 export default { loginUser };

@@ -2,9 +2,9 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 interface Address extends Document {
   address_line?: string;
-  city?: mongoose.Schema.Types.ObjectId;
-  province?: mongoose.Schema.Types.ObjectId;
-  country?: mongoose.Schema.Types.ObjectId;
+  city?: mongoose.Types.ObjectId;
+  province?: mongoose.Types.ObjectId;
+  country?: mongoose.Types.ObjectId;
   postal_code?: number;
   latitude?: number;
   longitude?: number;

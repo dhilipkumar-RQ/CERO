@@ -7,7 +7,7 @@ interface CompanyUserDocument extends Document {
   email: string;
   isd_code: string;
   phone_number: string;
-  company_id: mongoose.Schema.Types.ObjectId;
+  company_id: mongoose.Types.ObjectId;
   password: string;
   role: string;
   user_type: string;
@@ -37,7 +37,7 @@ const CompanyUserSchema: Schema<CompanyUserDocument> = new mongoose.Schema(
       type: String,
     },
     company_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Company',
       required: true,
     },

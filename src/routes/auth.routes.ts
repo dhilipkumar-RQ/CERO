@@ -11,4 +11,10 @@ authRoutes.post(
   authController.loginUser,
 );
 
+authRoutes.put(
+    '/set-password',
+    Validate(authRouteValidator.LOGIN_REQUEST_SCHEMA),
+
+)
+
 export default authRoutes;
