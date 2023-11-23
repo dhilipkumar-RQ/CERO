@@ -1,16 +1,20 @@
 import express, { Application, Request, Response } from 'express';
-import connectDB from '../database/connectdb';
+import {connectDB} from '../database/connectdb';
 import routes from '../routes';
 import errorHandler from '../middlewares/errorHandler.middleware';
 import morgan from 'morgan';
 import checkIsDev from '../utils/checkIsDev';
 import notFoundHandler from '../middlewares/notFound.middleware';
+import { PORT } from '../config';
 
-export default async (app: Application): Promise<void> => {
+export default async () => {
   if (process.env.NODE_ENV !== 'test') {
     await connectDB();
   }
-
+  const app: Application = express();
+  const server = app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  });
   if (checkIsDev()) {
     app.use(morgan('dev'));
   }
@@ -27,4 +31,6 @@ export default async (app: Application): Promise<void> => {
 
   app.use(notFoundHandler);
   app.use(errorHandler);
+
+  return server
 };
