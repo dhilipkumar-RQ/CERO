@@ -6,12 +6,12 @@ import generateToken from '../utils/generateToken';
 import CompanyModel from '../models/company/Company.model';
 import APIErrorResponse from '../errors';
 import mongoose from 'mongoose';
-import {DEFAULT_COMPANY_USER_PASSWORD} from '../config'
+import { DEFAULT_COMPANY_USER_PASSWORD } from '../config';
 
 const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { email, password } = req.body;
+      const { email, password } = req.body.login;
 
       const companyUser = await CompanyUserModel.findOne({ email });
 
@@ -42,32 +42,33 @@ const loginUser = asyncHandler(
         throw new APIErrorResponse.UnauthenticatedError('Invalid Credentials');
       }
     } catch (error) {
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: error.message });
+      next();
     }
   },
 );
-
 
 const setPassword = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { new_password } = req.body.user;
-      const { user_id } = req.user
-      const companyUser = await CompanyUserModel.findOne({ _id: new mongoose.Types.ObjectId(user_id) });
-      if(companyUser.password == null || (await companyUser.isPasswordMatched(DEFAULT_COMPANY_USER_PASSWORD))){
-        companyUser.password = new_password
-        await companyUser.save()
-        res.send({"message":"Password assigned successfully"})
-      }else{
-        res.status(422).send({"message":"Password assigned already"})
+      const { user_id } = req.user;
+      const companyUser = await CompanyUserModel.findOne({
+        _id: new mongoose.Types.ObjectId(user_id),
+      });
+      if (
+        companyUser.password == null ||
+        (await companyUser.isPasswordMatched(DEFAULT_COMPANY_USER_PASSWORD))
+      ) {
+        companyUser.password = new_password;
+        await companyUser.save();
+        res.send({ message: 'Password assigned successfully' });
+      } else {
+        res.status(422).send({ message: 'Password assigned already' });
       }
-      
     } catch (error) {
-      next(error)
+      next(error);
     }
-  }
-)
+  },
+);
 
-export default { loginUser,setPassword };
+export default { loginUser, setPassword };
