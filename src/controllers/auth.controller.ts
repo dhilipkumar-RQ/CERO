@@ -6,6 +6,7 @@ import generateToken from '../utils/generateToken';
 import CompanyModel from '../models/company/Company.model';
 import APIErrorResponse from '../errors';
 import mongoose from 'mongoose';
+import {DEFAULT_COMPANY_USER_PASSWORD} from '../config'
 
 const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -49,18 +50,24 @@ const loginUser = asyncHandler(
 );
 
 
-const setPassword= asyncHandler(
+const setPassword = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { new_password } = req.body.user;
       const { user_id } = req.user
       const companyUser = await CompanyUserModel.findOne({ _id: new mongoose.Types.ObjectId(user_id) });
-      companyUser.password = new_password
-      await companyUser.save()
+      if(companyUser.password == null || (await companyUser.isPasswordMatched(DEFAULT_COMPANY_USER_PASSWORD))){
+        companyUser.password = new_password
+        await companyUser.save()
+        res.send({"message":"Password assigned successfully"})
+      }else{
+        res.status(422).send({"message":"Password assigned already"})
+      }
+      
     } catch (error) {
       next(error)
     }
   }
 )
 
-export default { loginUser };
+export default { loginUser,setPassword };
