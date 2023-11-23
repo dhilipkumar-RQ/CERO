@@ -39,7 +39,9 @@ const loginUser = asyncHandler(
         },
       });
     } else {
-      throw new APIErrorResponse.UnauthenticatedError('Invalid Credentials');
+      throw new APIErrorResponse.UnauthenticatedError(
+        'Incorrect Email or Password',
+      );
     }
   },
 );
@@ -53,10 +55,13 @@ const setPassword = asyncHandler(
       .required();
 
     const validationResult = passwordSchema.validate(new_password);
-    if(validationResult.error) {
-      res.status(422).send({ message: 'Password must be a combination of minimum 8 characters, including 1 special character and 1 uppercase letter.' });
-      return
-    } 
+    if (validationResult.error) {
+      res.status(422).send({
+        message:
+          'Password must be a combination of minimum 8 characters, including 1 special character and 1 uppercase letter.',
+      });
+      return;
+    }
     const { user_id } = req.user;
     const companyUser = await CompanyUserModel.findOne({
       _id: new mongoose.Types.ObjectId(user_id),
@@ -67,9 +72,9 @@ const setPassword = asyncHandler(
     ) {
       companyUser.password = new_password;
       await companyUser.save();
-      res.send({ message: 'Password assigned successfully' });
+      res.send({ message: 'new password has been successfully set' });
     } else {
-      res.status(422).send({ message: 'Password assigned already' });
+      res.status(422).send({ message: 'password has already been set' });
     }
   },
 );
