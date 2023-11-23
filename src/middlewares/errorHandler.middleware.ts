@@ -16,9 +16,9 @@ export default (err: any, req: Request, res: Response, next: NextFunction) => {
   };
 
   if (err.name === 'ValidationError') {
-    customError.msg = Object.values(err.errors)
+    customError.msg = Object.values(err.details)
       .map((item: any) => item.message)
-      .join(',');
+      .join(', ');
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }
 
